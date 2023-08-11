@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { Content } from "./components/Content";
 import { SideBar } from "./components/SideBar";
@@ -37,10 +37,6 @@ export function App() {
     {} as GenreResponseProps
   );
 
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
-
   useEffect(() => {
     api.get<GenreResponseProps[]>("genres").then((response) => {
       setGenres(response.data);
@@ -60,6 +56,10 @@ export function App() {
         setSelectedGenre(response.data);
       });
   }, [selectedGenreId]);
+
+  const handleClickButton = useCallback((id: number) => {
+    setSelectedGenreId(id);
+  }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
